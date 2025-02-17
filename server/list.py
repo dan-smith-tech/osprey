@@ -2,26 +2,36 @@ import yaml
 from git import get_remote_yaml, update_remote_yaml
 
 
-def get_items():
+def get_file():
     file = get_remote_yaml("list.yaml")
-    items = file["list"]["items"]
+
+    return file
+
+
+def set_file(file_content):
+    new_file = yaml.dump(file_content, sort_keys=False, default_flow_style=False)
+    update_remote_yaml("list.yaml", new_file)
+
+    return file_content
+
+
+def get_items():
+    file_content = get_file()
+    items = file_content["list"]["items"]
 
     return items
 
 
-def add_item(new_item):
-    file = get_remote_yaml("list.yaml")
-    file["list"]["items"] += [new_item]
-    new_file = yaml.dump(file, sort_keys=False, default_flow_style=False)
-    update_remote_yaml("list.yaml", new_file)
+def add_items(file_content, new_items):
+    file_content["list"]["items"] += new_items
 
-    return file["list"]["items"]
+    return file_content
 
 
-def delete_item(item_id):
-    file = get_remote_yaml("list.yaml")
-    file["list"]["items"].pop(item_id)
-    new_file = yaml.dump(file, sort_keys=False, default_flow_style=False)
-    update_remote_yaml("list.yaml", new_file)
+def delete_items(file_content, item_ids):
+    items = file_content["list"]["items"]
+    file_content["list"]["items"] = [
+        item for i, item in enumerate(items) if i not in item_ids
+    ]
 
-    return file["list"]["items"]
+    return file_content
