@@ -1,9 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 
-import "./App.css";
+import Item from "./components/Item";
+
+import styles from "./App.module.css";
 
 function App() {
-   const [items, setItems] = useState<string[]>([]);
+   const [items, setItems] = useState<string[]>([
+      "This is a sample item",
+      "This is another sample item",
+      "This is a third sample item",
+      "This is a fourth sample item",
+      "This is a fifth sample item",
+   ]);
    const input = useRef<HTMLInputElement>(null);
 
    const [waitingForResponse, setWaitingForResponse] = useState(false);
@@ -66,31 +74,29 @@ function App() {
    }
 
    return (
-      <main>
-         <h1>Items</h1>
-         <ul>
-            {items.map((item, i) => (
-               <li key={i}>
-                  {item}
-                  <button
-                     onClick={() => {
-                        removeItem(i);
-                     }}
-                  >
-                     Remove
-                  </button>
-               </li>
-            ))}
-         </ul>
-         <input ref={input} type="text" id="newItem" />
-         <button
-            onClick={() => {
-               addItem(input.current!.value);
-               input.current!.value = "";
-            }}
-         >
-            Add
-         </button>
+      <main id={styles.main}>
+         <div id={styles.app}>
+            <h1>Items</h1>
+            <ul id={styles.list}>
+               {items.map((item, i) => (
+                  <Item
+                     key={item}
+                     id={i}
+                     content={item}
+                     onTick={() => removeItem(i)}
+                  />
+               ))}
+            </ul>
+            <input ref={input} type="text" id="newItem" />
+            <button
+               onClick={() => {
+                  addItem(input.current!.value);
+                  input.current!.value = "";
+               }}
+            >
+               Add
+            </button>
+         </div>
       </main>
    );
 }

@@ -1,0 +1,61 @@
+#wrapper {
+   display: flex;
+   align-items: center;
+   user-select: none;
+}
+
+/* taken from https://css-tricks.com/inclusively-hidden/ */
+#wrapper input[type="checkbox"] {
+   clip: rect(0 0 0 0);
+   clip-path: inset(50%);
+   height: 1px;
+   overflow: hidden;
+   position: absolute;
+   white-space: nowrap;
+   width: 1px;
+}
+
+.checkbox {
+   margin: 0;
+   padding: 0;
+   display: inline-block;
+   height: 25px;
+   width: 25px;
+   border: var(--border-width) solid var(--color-accent);
+   border-radius: var(--border-radius-large);
+}
+
+.checkboxActive {
+   background-color: var(--color-accent);
+   animation: check-svg var(--animation-duration) ease-in-out forwards;
+}
+
+@keyframes check-svg {
+   0% {
+      opacity: 0.15;
+   }
+
+   100% {
+      opacity: 1;
+   }
+}
+
+.checkboxActive path {
+   transform: scale(0.65);
+   transform-origin: center;
+   animation: check-path var(--animation-duration) ease-in-out forwards;
+}
+
+@keyframes check-path {
+   0% {
+      transform: scale(0);
+   }
+
+   100% {
+      transform: scale(0.65);
+   }
+}
+
+#content {
+   margin-left: var(--spacing-small);
+}
