@@ -1,18 +1,19 @@
 :root {
    --app-width: 30rem;
+   --toolbar-height: 2rem;
 
    --color-background: #000000;
-   --color-container: #f7f7f7;
+   --color-container: #ffffff35;
    --color-accent: #ffffff;
 
-   --spacing-large: 2rem;
+   --spacing-large: 1.5rem;
    --spacing-medium: 1rem;
    --spacing-small: 0.5rem;
 
    --border-width: 2px;
 
    --border-radius-large: 1rem;
-   --border-radius-medium: 0.5rem;
+   --border-radius-medium: 0.85rem;
    --border-radius-small: 0.25rem;
 
    --font-size-large: 50%;

@@ -1,4 +1,5 @@
 #main {
+   padding: var(--spacing-large);
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -7,13 +8,59 @@
 #app {
    max-width: var(--app-width);
    width: 100%;
+   position: relative;
 }
 
 #list {
-   margin: var(--spacing-large) 0;
+   margin: 0;
    padding: 0;
+   padding-bottom: calc(var(--toolbar-height) + 2 * var(--spacing-large));
    display: flex;
    flex-direction: column;
    gap: var(--spacing-medium);
    width: 100%;
+}
+
+#toolbar {
+   width: min(var(--app-width), calc(100vw - 2 * var(--spacing-large)));
+   height: var(--toolbar-height);
+   position: fixed;
+   bottom: var(--spacing-large);
+   display: flex;
+   gap: var(--spacing-small);
+}
+
+#toolbar input {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+   padding: 0 var(--spacing-small);
+   box-sizing: border-box;
+   border: none;
+   border-radius: var(--border-radius-medium);
+   display: flex;
+   align-items: center;
+}
+
+#toolbar input:focus {
+   /* improve accessibility */
+   outline: none;
+}
+
+#toolbar button {
+   height: 100%;
+   aspect-ratio: 1;
+   margin: 0;
+   padding: 0;
+   background-color: transparent;
+   border: var(--border-width) solid var(--color-accent);
+   border-radius: var(--border-radius-large);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   cursor: pointer;
+}
+
+#toolbar button svg {
+   fill: var(--color-accent);
 }

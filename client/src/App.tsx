@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import Item from "./components/Item";
 
 import styles from "./App.module.css";
+import { FaTag } from "react-icons/fa";
+import { FaCalendarDays } from "react-icons/fa6";
 
 function App() {
    const [items, setItems] = useState<string[]>([
@@ -76,7 +78,6 @@ function App() {
    return (
       <main id={styles.main}>
          <div id={styles.app}>
-            <h1>Items</h1>
             <ul id={styles.list}>
                {items.map((item, i) => (
                   <Item
@@ -87,15 +88,25 @@ function App() {
                   />
                ))}
             </ul>
-            <input ref={input} type="text" id="newItem" />
-            <button
-               onClick={() => {
-                  addItem(input.current!.value);
-                  input.current!.value = "";
-               }}
-            >
-               Add
-            </button>
+            <div id={styles.toolbar}>
+               <input
+                  ref={input}
+                  type="text"
+                  placeholder="Enter list item to add"
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                     if (e.key === "Enter") {
+                        addItem(e.currentTarget.value);
+                        e.currentTarget.value = "";
+                     }
+                  }}
+               />
+               <button>
+                  <FaTag />
+               </button>
+               <button>
+                  <FaCalendarDays />
+               </button>
+            </div>
          </div>
       </main>
    );
