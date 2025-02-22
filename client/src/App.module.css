@@ -30,7 +30,6 @@
    padding: var(--spacing-large) 0;
    position: fixed;
    bottom: 0;
-   /* ackground gradient going from pure black at bottom vertically to transparent, but transparency starts at 6% of way up */
    background: linear-gradient(to top, var(--color-background) 85%, transparent);
    display: flex;
    flex-direction: column;
@@ -51,10 +50,20 @@
 #tags li {
    padding: var(--spacing-small) var(--spacing-medium);
    width: 100%;
-   background-color: steelblue;
+   color: var(--color);
+   font-weight: 800;
+   border: var(--border-width) solid var(--color);
    border-radius: var(--border-radius-medium);
    list-style: none;
+   font-size: var(--font-size-small);
    white-space: nowrap;
+   user-select: none;
+   cursor: pointer;
+}
+
+li.tagSelected {
+   background-color: var(--color);
+   color: var(--color-accent) !important;
 }
 
 #input {

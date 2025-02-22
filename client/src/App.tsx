@@ -8,130 +8,183 @@ import Item from "./components/Item";
 import styles from "./App.module.css";
 
 function App() {
-  const [items, setItems] = useState<string[]>([
-    "This is a sample item",
-    "This is another sample item",
-    "This is a third sample item",
-    "This is a fourth sample item",
-    "This is a fifth sample item",
-  ]);
-  const [tags, setTags] = useState<string[]>([
-    "Tag 1",
-    "Tag 2",
-    "Tag 3",
-    "Tag 4",
-    "Tag 5",
-    "Tag 6",
-    "Tag 7",
-    "Tag 8",
-    "Tag 9",
-    "Tag 10",
-    "Tag 11",
-    "Tag 12",
-  ]);
-  const input = useRef<HTMLInputElement>(null);
+   const [items, setItems] = useState<string[]>([
+      "This is a sample item",
+      "This is another sample item",
+      "This is a third sample item",
+      "This is a fourth sample item",
+      "This is a fifth sample item",
+   ]);
+   const [tags, setTags] = useState<string[]>([
+      "Tag 1",
+      "Tag 2",
+      "Tag 3",
+      "Tag 4",
+      "Tag 5",
+      "Tag 6",
+      "Tag 7",
+      "Tag 8",
+      "Tag 9",
+      "Tag 10",
+      "Tag 11",
+      "Tag 12",
+   ]);
+   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const [waitingForResponse, setWaitingForResponse] = useState(false);
-  const [itemsToAdd, setItemsToAdd] = useState<string[]>([]);
-  const [itemsToRemove, setItemsToRemove] = useState<number[]>([]);
+   const addTag = (tag: string) => {
+      if (tags.includes(tag)) return;
+      const newTags = [...tags, tag];
+      newTags.sort((a, b) => a.localeCompare(b));
+      setTags(newTags);
+   };
 
-  const timerRef = useRef(0);
+   const removeTag = (tag: string) => {
+      const newTags = tags.filter((t) => t !== tag);
+      setTags(newTags);
+   };
 
-  useEffect(() => {
-    if (
-      itemsToAdd.length > 0 ||
-      (itemsToRemove.length > 0 && !waitingForResponse)
-    ) {
-      clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        setWaitingForResponse(true);
-        fetch("/api/list", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ itemsToAdd, itemsToRemove }),
-        })
-          .then((response) => {
-            setWaitingForResponse(false);
+   const input = useRef<HTMLInputElement>(null);
 
-            return response.json();
-          })
-          .catch((error) => {
-            setWaitingForResponse(false);
+   const [waitingForResponse, setWaitingForResponse] = useState(false);
+   const [itemsToAdd, setItemsToAdd] = useState<string[]>([]);
+   const [itemsToRemove, setItemsToRemove] = useState<number[]>([]);
 
-            // TODO: Handle error
-            console.error(error);
-          });
-      }, 1000);
-    }
+   const timerRef = useRef(0);
 
-    return () => clearTimeout(timerRef.current);
-  }, [itemsToAdd, itemsToRemove, waitingForResponse]);
+   useEffect(() => {
+      if (
+         itemsToAdd.length > 0 ||
+         (itemsToRemove.length > 0 && !waitingForResponse)
+      ) {
+         clearTimeout(timerRef.current);
+         timerRef.current = setTimeout(() => {
+            setWaitingForResponse(true);
+            fetch("/api/list", {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+               },
+               body: JSON.stringify({ itemsToAdd, itemsToRemove }),
+            })
+               .then((response) => {
+                  setWaitingForResponse(false);
 
-  useEffect(() => {
-    fetch("/api/list")
-      .then((response) => response.json())
-      .then((data) => {
-        setItems(data.items);
-      });
-  }, []);
+                  return response.json();
+               })
+               .catch((error) => {
+                  setWaitingForResponse(false);
 
-  function addItem(newItem: string) {
-    if (newItem === "") return;
-    setItems([...items, newItem]);
-    setItemsToAdd([...itemsToAdd, newItem]);
-  }
+                  // TODO: Handle error
+                  console.error(error);
+               });
+         }, 1000);
+      }
 
-  function removeItem(index: number) {
-    const newItems = items.slice();
-    newItems.splice(index, 1);
-    setItems(newItems);
-    setItemsToRemove([...itemsToRemove, index]);
-  }
+      return () => clearTimeout(timerRef.current);
+   }, [itemsToAdd, itemsToRemove, waitingForResponse]);
 
-  return (
-    <main id={styles.main}>
-      <div id={styles.app}>
-        <ul id={styles.list}>
-          {items.map((item, i) => (
-            <Item
-              key={item}
-              id={i}
-              content={item}
-              onTick={() => removeItem(i)}
-            />
-          ))}
-        </ul>
-        <div id={styles.toolbar}>
-          <ul id={styles.tags}>
-            {tags.map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
-          <div id={styles.input}>
-            <input
-              ref={input}
-              type="text"
-              placeholder="Enter list item to add"
-              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                if (e.key === "Enter") {
-                  addItem(e.currentTarget.value);
-                  e.currentTarget.value = "";
-                }
-              }}
-            />
-            <button>
-              <FaTag />
-            </button>
-            <button>
-              <FaCalendarDays />
-            </button>
-          </div>
-        </div>
-      </div>
-    </main>
-  );
+   useEffect(() => {
+      fetch("/api/list")
+         .then((response) => response.json())
+         .then((data) => {
+            setItems(data.items);
+         });
+   }, []);
+
+   function addItem(newItem: string) {
+      if (newItem === "") return;
+      setItems([...items, newItem]);
+      setItemsToAdd([...itemsToAdd, newItem]);
+   }
+
+   function removeItem(index: number) {
+      const newItems = items.slice();
+      newItems.splice(index, 1);
+      setItems(newItems);
+      setItemsToRemove([...itemsToRemove, index]);
+   }
+
+   return (
+      <main id={styles.main}>
+         <div id={styles.app}>
+            <ul id={styles.list}>
+               {items.map((item, i) => (
+                  <Item
+                     key={item}
+                     id={i}
+                     content={item}
+                     onTick={() => removeItem(i)}
+                  />
+               ))}
+            </ul>
+            <div id={styles.toolbar}>
+               <ul id={styles.tags}>
+                  {tags.map((tag) => (
+                     <>
+                        {selectedTags.includes(tag) ? (
+                           <li
+                              key={tag}
+                              className={
+                                 selectedTags.includes(tag) ? styles.tagSelected : ""
+                              }
+                              style={{ "--color": "steelblue" }}
+                              onClick={() => {
+                                 if (!selectedTags.includes(tag))
+                                    setSelectedTags([...selectedTags, tag]);
+                                 else
+                                    setSelectedTags(selectedTags.filter((t) => t !== tag));
+                              }}
+                           >
+                              {tag}
+                           </li>
+                        ) : null}
+                     </>
+                  ))}
+                  {tags.map((tag) => (
+                     <>
+                        {!selectedTags.includes(tag) ? (
+                           <li
+                              key={tag}
+                              className={
+                                 selectedTags.includes(tag) ? styles.tagSelected : ""
+                              }
+                              style={{ "--color": "steelblue" }}
+                              onClick={() => {
+                                 if (!selectedTags.includes(tag))
+                                    setSelectedTags([...selectedTags, tag]);
+                                 else
+                                    setSelectedTags(selectedTags.filter((t) => t !== tag));
+                              }}
+                           >
+                              {tag}
+                           </li>
+                        ) : null}
+                     </>
+                  ))}
+               </ul>
+               <div id={styles.input}>
+                  <input
+                     ref={input}
+                     type="text"
+                     placeholder="Enter list item to add"
+                     onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        if (e.key === "Enter") {
+                           addItem(e.currentTarget.value);
+                           e.currentTarget.value = "";
+                        }
+                     }}
+                  />
+                  <button>
+                     <FaTag />
+                  </button>
+                  <button>
+                     <FaCalendarDays />
+                  </button>
+               </div>
+            </div>
+         </div>
+      </main>
+   );
 }
 
 export default App;
