@@ -1,9 +1,12 @@
 #main {
    margin: 0;
    padding: 0;
+   width: 100vw;
+   height: 100vh;
    display: flex;
    flex-direction: column;
    align-items: center;
+   justify-content: center;
    overflow: hidden;
    position: relative;
 }
@@ -11,6 +14,8 @@
 #app {
    max-width: var(--app-width);
    width: 100%;
+   max-height: var(--app-height);
+   height: 100%;
    position: relative;
 }
 
@@ -28,7 +33,7 @@
    width: min(var(--app-width), 100vw);
    height: var(--toolbar-height);
    padding: var(--spacing-large) 0;
-   position: fixed;
+   position: absolute;
    bottom: 0;
    background: linear-gradient(to top, var(--color-background) 85%, transparent);
    display: flex;

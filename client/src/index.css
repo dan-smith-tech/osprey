@@ -6,6 +6,7 @@
 
 :root {
    --app-width: 30rem;
+   --app-height: 50rem;
    --toolbar-height: 5rem;
 
    --color-background: #000000;
