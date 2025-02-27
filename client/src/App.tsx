@@ -127,7 +127,7 @@ function App() {
                               className={
                                  selectedTags.includes(tag) ? styles.tagSelected : ""
                               }
-                              style={{ "--color": "steelblue" }}
+                              style={{ "--color": "#2196F3" }}
                               onClick={() => {
                                  if (!selectedTags.includes(tag))
                                     setSelectedTags([...selectedTags, tag]);
@@ -148,7 +148,7 @@ function App() {
                               className={
                                  selectedTags.includes(tag) ? styles.tagSelected : ""
                               }
-                              style={{ "--color": "steelblue" }}
+                              style={{ "--color": "#2196F3" }}
                               onClick={() => {
                                  if (!selectedTags.includes(tag))
                                     setSelectedTags([...selectedTags, tag]);

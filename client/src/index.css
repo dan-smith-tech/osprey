@@ -7,15 +7,14 @@
 :root {
    --app-width: 30rem;
    --app-height: 50rem;
-   --toolbar-height: 5rem;
 
    --color-background: #000000;
    --color-container: #ffffff35;
-   --color-accent: #ffffff;
+   --color-accent: #dddfec;
 
    --spacing-large: 1.5rem;
    --spacing-medium: 1rem;
-   --spacing-small: 0.5rem;
+   --spacing-small: 0.35rem;
 
    --border-width: 2px;
 
