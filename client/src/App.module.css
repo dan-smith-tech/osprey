@@ -39,36 +39,6 @@
    gap: var(--spacing-medium);
 }
 
-#tags {
-   margin: 0;
-   padding: 0 var(--spacing-large);
-   display: flex;
-   gap: var(--spacing-small);
-   overflow-x: scroll;
-   scrollbar-width: none;
-   position: sticky;
-   top: 0;
-}
-
-#tags li {
-   padding: var(--spacing-small) var(--spacing-medium);
-   width: 100%;
-   color: var(--color);
-   font-weight: 800;
-   border: var(--border-width) solid var(--color);
-   border-radius: var(--border-radius-medium);
-   list-style: none;
-   font-size: var(--font-size-small);
-   white-space: nowrap;
-   user-select: none;
-   cursor: pointer;
-}
-
-li.tagSelected {
-   background-color: var(--color);
-   color: var(--color-accent) !important;
-}
-
 #input {
    margin: 0 var(--spacing-large);
    height: 2.5rem;
