@@ -1,0 +1,19 @@
+#element {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+   padding: var(--spacing-small) var(--spacing-medium);
+   box-sizing: border-box;
+   border: none;
+   border-radius: var(--border-radius-medium);
+   background-color: var(--color-accent);
+   display: flex;
+   align-items: center;
+   font-size: var(--font-size-medium);
+   font-family: "Quicksand", serif;
+   font-weight: 600;
+}
+
+#element:focus {
+   outline: none;
+}

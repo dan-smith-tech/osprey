@@ -5,6 +5,7 @@ import { FaCalendarDays } from "react-icons/fa6";
 
 import Item from "./components/Item";
 import Tags from "./components/Tags";
+import Input from "./components/Input";
 
 import styles from "./App.module.css";
 
@@ -125,17 +126,7 @@ function App() {
             setSelectedTags={setSelectedTags}
           />
           <div id={styles.input}>
-            <input
-              ref={input}
-              type="text"
-              placeholder="Enter list item to add"
-              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                if (e.key === "Enter") {
-                  addItem(e.currentTarget.value);
-                  e.currentTarget.value = "";
-                }
-              }}
-            />
+            <Input ref={input} addItem={addItem} />
             <button>
               <FaTag />
             </button>
