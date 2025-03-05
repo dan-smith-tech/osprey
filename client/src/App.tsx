@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import { FaTag } from "react-icons/fa";
 import { FaCalendarDays } from "react-icons/fa6";
 
 import Item from "./components/Item";
@@ -36,6 +35,13 @@ function App() {
   const addTag = (tag: string) => {
     if (tags.includes(tag)) return;
     const newTags = [...tags, tag];
+    newTags.sort((a, b) => a.localeCompare(b));
+    setTags(newTags);
+  };
+
+  const editTag = (oldTag: string, newTag: string) => {
+    if (tags.includes(newTag)) return;
+    const newTags = tags.map((tag) => (tag === oldTag ? newTag : tag));
     newTags.sort((a, b) => a.localeCompare(b));
     setTags(newTags);
   };
@@ -125,15 +131,7 @@ function App() {
             selectedTags={selectedTags}
             setSelectedTags={setSelectedTags}
           />
-          <div id={styles.input}>
-            <Input ref={input} addItem={addItem} />
-            <button>
-              <FaTag />
-            </button>
-            <button>
-              <FaCalendarDays />
-            </button>
-          </div>
+          <Input ref={input} addItem={addItem} />
         </div>
       </div>
     </main>

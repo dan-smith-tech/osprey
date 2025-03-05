@@ -21,7 +21,7 @@
    --border-radius-medium: 0.85rem;
    --border-radius-small: 0.25rem;
 
-   --font-size-large: 50%;
+   --font-size-large: 1.35rem;
    --font-size-medium: 1rem;
    --font-size-small: 0.75rem;
 
@@ -37,4 +37,8 @@ body {
    font-size: 1.05rem;
    color: var(--color-accent);
    background-color: var(--color-background);
+}
+
+h2 {
+   margin: 0;
 }

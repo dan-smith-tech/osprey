@@ -1,7 +1,7 @@
 import styles from "./Input.module.css";
 
 function Input({
-  input,
+  ref,
   addItem,
 }: {
   input: React.RefObject<HTMLInputElement>;
@@ -10,7 +10,7 @@ function Input({
   return (
     <input
       id={styles.element}
-      ref={input}
+      ref={ref}
       type="text"
       placeholder="Enter list item to add"
       onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
