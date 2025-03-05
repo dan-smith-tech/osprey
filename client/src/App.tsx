@@ -8,13 +8,19 @@ import Input from "./components/Input";
 
 import styles from "./App.module.css";
 
+type Item = {
+  content: string;
+  tags: string[];
+};
+
 function App() {
-  const [items, setItems] = useState<string[]>([
-    "This is a sample item",
-    "This is another sample item",
-    "This is a third sample item",
-    "This is a fourth sample item",
-    "This is a fifth sample item",
+  const [items, setItems] = useState<Item[]>([
+    { content: "This is a sample item", tags: ["Tag 1", "Tag 2"] },
+    { content: "This is another sample item", tags: ["Tag 3", "Tag 4"] },
+    { content: "This is a third sample item", tags: ["Tag 5", "Tag 6"] },
+    { content: "This is a fourth sample item", tags: ["Tag 7", "Tag 8"] },
+    { content: "This is a fifth sample item", tags: ["Tag 9", "Tag 10"] },
+    { content: "This is a sixth sample item", tags: ["Tag 11", "Tag 12"] },
   ]);
   const [tags, setTags] = useState<string[]>([
     "Tag 1",
@@ -32,30 +38,11 @@ function App() {
   ]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const addTag = (tag: string) => {
-    if (tags.includes(tag)) return;
-    const newTags = [...tags, tag];
-    newTags.sort((a, b) => a.localeCompare(b));
-    setTags(newTags);
-  };
-
-  const editTag = (oldTag: string, newTag: string) => {
-    if (tags.includes(newTag)) return;
-    const newTags = tags.map((tag) => (tag === oldTag ? newTag : tag));
-    newTags.sort((a, b) => a.localeCompare(b));
-    setTags(newTags);
-  };
-
-  const removeTag = (tag: string) => {
-    const newTags = tags.filter((t) => t !== tag);
-    setTags(newTags);
-  };
-
   const input = useRef<HTMLInputElement>(null);
 
   const [waitingForResponse, setWaitingForResponse] = useState(false);
-  const [itemsToAdd, setItemsToAdd] = useState<string[]>([]);
-  const [itemsToRemove, setItemsToRemove] = useState<number[]>([]);
+  const [itemsToAdd, setItemsToAdd] = useState<Item[]>([]);
+  const [itemsToRemove, setItemsToRemove] = useState<Item[]>([]);
 
   const timerRef = useRef(0);
 
@@ -99,17 +86,21 @@ function App() {
       });
   }, []);
 
-  function addItem(newItem: string) {
-    if (newItem === "") return;
+  function addItem(content: string) {
+    if (content === "") return;
+    if (items.some((item) => item.content === content)) return;
+
+    const newItem = { content, tags: selectedTags };
+
     setItems([...items, newItem]);
     setItemsToAdd([...itemsToAdd, newItem]);
   }
 
-  function removeItem(index: number) {
+  function removeItem(item: Item) {
     const newItems = items.slice();
-    newItems.splice(index, 1);
+    newItems.splice(newItems.indexOf(item), 1);
     setItems(newItems);
-    setItemsToRemove([...itemsToRemove, index]);
+    setItemsToRemove([...itemsToRemove, item]);
   }
 
   return (
@@ -117,12 +108,17 @@ function App() {
       <div id={styles.app}>
         <ul id={styles.list}>
           {items.map((item, i) => (
-            <Item
-              key={item}
-              id={i}
-              content={item}
-              onTick={() => removeItem(i)}
-            />
+            <>
+              {selectedTags.length === 0 ||
+              item.tags.some((tag) => selectedTags.includes(tag)) ? (
+                <Item
+                  key={item.content}
+                  id={i}
+                  content={item.content}
+                  onTick={() => removeItem(item)}
+                />
+              ) : null}
+            </>
           ))}
         </ul>
         <div id={styles.toolbar}>
