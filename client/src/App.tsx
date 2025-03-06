@@ -106,7 +106,7 @@ function App() {
       <main id={styles.main}>
          <div id={styles.app}>
             <ul id={styles.list}>
-               {items.map((item, i) => (
+               {items.map((item) => (
                   <>
                      {selectedTags.length === 0 ||
                         item.tags.some((tag) => selectedTags.includes(tag)) ? (
