@@ -2,15 +2,7 @@ import { useState } from "react";
 
 import styles from "./Item.module.css";
 
-function Item({
-   id,
-   content,
-   onTick,
-}: {
-   id: number;
-   content: string;
-   onTick: () => void;
-}) {
+function Item({ content, onTick }: { content: string; onTick: () => void }) {
    const [isChecked, setIsChecked] = useState(false);
 
    return (
