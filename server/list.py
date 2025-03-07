@@ -18,8 +18,9 @@ def set_file(file_content):
 def get_items():
     file_content = get_file()
     items = file_content["list"]["items"]
+    tags = file_content["tags"]
 
-    return items
+    return items, tags
 
 
 def add_items(file_content, new_items):

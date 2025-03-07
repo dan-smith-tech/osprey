@@ -17,8 +17,8 @@ def index():
 
 @app.route("/api/list", methods=["GET"])
 def get():
-    items = get_items()
-    return jsonify({"items": items})
+    items, tags = get_items()
+    return jsonify({"items": items, "tags": tags})
 
 
 @app.route("/api/list", methods=["POST"])
