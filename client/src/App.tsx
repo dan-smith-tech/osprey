@@ -9,7 +9,7 @@ import styles from "./App.module.css";
 type Item = {
    content: string;
    tags: string[];
-   type:
+   occurrence:
    | "once"
    | "day"
    | "weekday"
@@ -32,44 +32,7 @@ function App() {
 
    const input = useRef<HTMLInputElement>(null);
 
-   const [waitingForResponse, setWaitingForResponse] = useState(false);
-   const [itemsToAdd, setItemsToAdd] = useState<Item[]>([]);
-   const [itemsToRemove, setItemsToRemove] = useState<Item[]>([]);
    const [loading, setLoading] = useState(true);
-
-   const timerRef = useRef(0);
-
-   useEffect(() => {
-      if (
-         itemsToAdd.length > 0 ||
-         (itemsToRemove.length > 0 && !waitingForResponse)
-      ) {
-         clearTimeout(timerRef.current);
-         timerRef.current = setTimeout(() => {
-            setWaitingForResponse(true);
-            fetch("/api/list", {
-               method: "POST",
-               headers: {
-                  "Content-Type": "application/json",
-               },
-               body: JSON.stringify({ itemsToAdd, itemsToRemove }),
-            })
-               .then((response) => {
-                  setWaitingForResponse(false);
-
-                  return response.json();
-               })
-               .catch((error) => {
-                  setWaitingForResponse(false);
-
-                  // TODO: Handle error
-                  console.error(error);
-               });
-         }, 1000);
-      }
-
-      return () => clearTimeout(timerRef.current);
-   }, [itemsToAdd, itemsToRemove, waitingForResponse]);
 
    useEffect(() => {
       fetch("/api/list")
@@ -85,17 +48,30 @@ function App() {
       if (content === "") return;
       if (items.some((item) => item.content === content)) return;
 
-      const newItem: Item = { content, tags: selectedTags, type: "once" };
+      const item: Item = { content, tags: selectedTags, occurrence: "once" };
+      setItems([...items, item]);
 
-      setItems([...items, newItem]);
-      setItemsToAdd([...itemsToAdd, newItem]);
+      fetch("/api/list", {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify(item),
+      });
    }
 
    function removeItem(item: Item) {
       const newItems = items.slice();
       newItems.splice(newItems.indexOf(item), 1);
       setItems(newItems);
-      setItemsToRemove([...itemsToRemove, item]);
+
+      fetch("/api/list", {
+         method: "DELETE",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify(item),
+      });
    }
 
    if (loading) {

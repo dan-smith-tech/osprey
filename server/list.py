@@ -22,7 +22,7 @@ def get_items():
 
     items = file_content["list"]["items"]
     for item in items:
-        item["occurance"] = "once"
+        item["occurence"] = "once"
 
     last_login = file_content["login"]
 
@@ -35,7 +35,7 @@ def get_items():
     else:
         for automation in file_content["automations"]["day"]:
             if automation not in file_content["list"]["day"]:
-                automation["occurance"] = "day"
+                automation["occurence"] = "day"
                 day_automations.append(automation)
 
     items += day_automations
@@ -45,25 +45,25 @@ def get_items():
     return items, tags
 
 
-def add_items(file_content, new_items):
-    file_content["list"]["items"] += new_items
+def add_item(file_content, new_item):
+    if new_item["content"] not in [
+        item["content"] for item in file_content["list"]["items"]
+    ]:
+        file_content["list"]["items"].append(new_item)
 
     return file_content
 
 
-def delete_items(file_content, items_to_remove):
+def delete_item(file_content, item_to_delete):
     items = file_content["list"]["items"]
 
-    for item in items:
-        if item["content"] in [
-            item_to_remove["content"] for item_to_remove in items_to_remove
-        ]:
-            items.remove(item)
-            items_to_remove.remove(item)
+    if item_to_delete["occurence"] == "once":
+        items = [item for item in items if item["content"] != item_to_delete["content"]]
+    else:
+        occurence = item_to_delete["occurence"]
+        item_to_delete.pop("occurence")
+        file_content["list"][occurence].append(item_to_delete)
 
-    for item_to_remove in items_to_remove:
-        occurance = item_to_remove["occurance"]
-        item_to_remove.pop("occurance")
-        file_content["list"][occurance].append(item_to_remove)
+    file_content["list"]["items"] = items
 
     return file_content

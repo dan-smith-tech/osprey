@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, send_from_directory
-from list import add_items, delete_items, get_file, get_items, set_file
+from list import add_item, delete_item, get_file, get_items, set_file
 
 app = Flask(__name__)
 
@@ -23,11 +23,9 @@ def get():
 
 @app.route("/api/list", methods=["POST"])
 def add():
-    items_to_add = request.json["itemsToAdd"]
-    items_to_remove = request.json["itemsToRemove"]
+    new_item = request.json["item"]
     file_content = get_file()
-    add_items(file_content, items_to_add)
-    delete_items(file_content, items_to_remove)
+    file_content = add_item(file_content, new_item)
     set_file(file_content)
 
     items = get_items()
