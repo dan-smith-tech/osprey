@@ -26,19 +26,42 @@ def get_items():
 
     last_login = file_content["login"]
 
+    day = date.today().weekday()
+    weekday = day < 5
+
     day_automations = []
+    weekday_automations = []
+    weekend_automations = []
     if last_login != date.today():
         file_content["login"] = date.today()
         file_content["list"]["day"] = []
+
+        if weekday:
+            file_content["list"]["weekday"] = []
+        else:
+            file_content["list"]["weekend"] = []
+
         set_file(file_content)
         day_automations = file_content["automations"]["day"]
+        weekday_automations = file_content["automations"]["weekday"]
+        weekend_automations = file_content["automations"]["weekend"]
     else:
         for automation in file_content["automations"]["day"]:
             if automation not in file_content["list"]["day"]:
                 automation["occurence"] = "day"
                 day_automations.append(automation)
+        if weekday:
+            for automation in file_content["automations"]["weekday"]:
+                if automation not in file_content["list"]["weekday"]:
+                    automation["occurence"] = "weekday"
+                    weekday_automations.append(automation)
+        else:
+            for automation in file_content["automations"]["weekend"]:
+                if automation not in file_content["list"]["weekend"]:
+                    automation["occurence"] = "weekend"
+                    weekend_automations.append(automation)
 
-    items += day_automations
+    items += day_automations + weekday_automations + weekend_automations
 
     tags = file_content["tags"]
 
@@ -56,6 +79,8 @@ def add_item(file_content, new_item):
 
 def delete_item(file_content, item_to_delete):
     items = file_content["list"]["items"]
+
+    print(item_to_delete)
 
     if item_to_delete["occurence"] == "once":
         items = [item for item in items if item["content"] != item_to_delete["content"]]
