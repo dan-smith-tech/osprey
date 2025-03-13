@@ -10,6 +10,6 @@ WORKDIR /server
 COPY server/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY server/*.py ./
-COPY server/static ./static
+COPY --from=client-builder /server/static ./static
 EXPOSE 5000
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "index:app"]
