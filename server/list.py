@@ -28,6 +28,7 @@ def get_items():
 
     day = date.today().weekday()
     weekday = day < 5
+    same_week = last_login.isocalendar()[1] == date.today().isocalendar()[1]
 
     day_automations = []
     weekday_automations = []
@@ -39,6 +40,7 @@ def get_items():
     friday_automations = []
     saturday_automations = []
     sunday_automations = []
+    week_automations = []
 
     if last_login != date.today():
         file_content["login"] = date.today()
@@ -64,7 +66,11 @@ def get_items():
         elif day == 6:
             file_content["list"]["sunday"] = []
 
+        if not same_week:
+            file_content["list"]["week"] = []
+
         set_file(file_content)
+
         day_automations = file_content["automations"]["day"]
         weekday_automations = file_content["automations"]["weekday"]
         weekend_automations = file_content["automations"]["weekend"]
@@ -75,11 +81,13 @@ def get_items():
         friday_automations = file_content["automations"]["friday"]
         saturday_automations = file_content["automations"]["saturday"]
         sunday_automations = file_content["automations"]["sunday"]
+        week_automations = file_content["automations"]["week"]
     else:
         for automation in file_content["automations"]["day"]:
             if automation not in file_content["list"]["day"]:
                 automation["occurence"] = "day"
                 day_automations.append(automation)
+
         if weekday:
             for automation in file_content["automations"]["weekday"]:
                 if automation not in file_content["list"]["weekday"]:
@@ -90,6 +98,7 @@ def get_items():
                 if automation not in file_content["list"]["weekend"]:
                     automation["occurence"] = "weekend"
                     weekend_automations.append(automation)
+
         if day == 0:
             for automation in file_content["automations"]["monday"]:
                 if automation not in file_content["list"]["monday"]:
@@ -126,6 +135,11 @@ def get_items():
                     automation["occurence"] = "sunday"
                     sunday_automations.append(automation)
 
+        for automation in file_content["automations"]["week"]:
+            if automation not in file_content["list"]["week"]:
+                automation["occurence"] = "week"
+                week_automations.append(automation)
+
     items += (
         day_automations
         + weekday_automations
@@ -137,6 +151,7 @@ def get_items():
         + friday_automations
         + saturday_automations
         + sunday_automations
+        + week_automations
     )
 
     tags = file_content["tags"]
