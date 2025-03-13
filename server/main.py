@@ -23,9 +23,22 @@ def get():
 
 @app.route("/api/list", methods=["POST"])
 def add():
-    new_item = request.json["item"]
+    new_item = request.json
     file_content = get_file()
     file_content = add_item(file_content, new_item)
+    set_file(file_content)
+
+    items = get_items()
+
+    return jsonify({"items": items})
+
+
+@app.route("/api/list", methods=["DELETE"])
+def delete():
+    print(request.json)
+    item = request.json
+    file_content = get_file()
+    file_content = delete_item(file_content, item)
     set_file(file_content)
 
     items = get_items()
