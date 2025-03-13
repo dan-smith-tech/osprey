@@ -71,74 +71,62 @@ def get_items():
 
         set_file(file_content)
 
-        day_automations = file_content["automations"]["day"]
-        weekday_automations = file_content["automations"]["weekday"]
-        weekend_automations = file_content["automations"]["weekend"]
-        monday_automations = file_content["automations"]["monday"]
-        tuesday_automations = file_content["automations"]["tuesday"]
-        wednesday_automations = file_content["automations"]["wednesday"]
-        thursday_automations = file_content["automations"]["thursday"]
-        friday_automations = file_content["automations"]["friday"]
-        saturday_automations = file_content["automations"]["saturday"]
-        sunday_automations = file_content["automations"]["sunday"]
-        week_automations = file_content["automations"]["week"]
+    for automation in file_content["automations"]["day"]:
+        if automation not in file_content["list"]["day"]:
+            automation["occurence"] = "day"
+            day_automations.append(automation)
+
+    if weekday:
+        for automation in file_content["automations"]["weekday"]:
+            if automation not in file_content["list"]["weekday"]:
+                automation["occurence"] = "weekday"
+                weekday_automations.append(automation)
     else:
-        for automation in file_content["automations"]["day"]:
-            if automation not in file_content["list"]["day"]:
-                automation["occurence"] = "day"
-                day_automations.append(automation)
+        for automation in file_content["automations"]["weekend"]:
+            if automation not in file_content["list"]["weekend"]:
+                automation["occurence"] = "weekend"
+                weekend_automations.append(automation)
 
-        if weekday:
-            for automation in file_content["automations"]["weekday"]:
-                if automation not in file_content["list"]["weekday"]:
-                    automation["occurence"] = "weekday"
-                    weekday_automations.append(automation)
-        else:
-            for automation in file_content["automations"]["weekend"]:
-                if automation not in file_content["list"]["weekend"]:
-                    automation["occurence"] = "weekend"
-                    weekend_automations.append(automation)
+    if day == 0:
+        for automation in file_content["automations"]["monday"]:
+            if automation not in file_content["list"]["monday"]:
+                automation["occurence"] = "monday"
+                monday_automations.append(automation)
+    elif day == 1:
+        for automation in file_content["automations"]["tuesday"]:
+            if automation not in file_content["list"]["tuesday"]:
+                automation["occurence"] = "tuesday"
+                tuesday_automations.append(automation)
+    elif day == 2:
+        for automation in file_content["automations"]["wednesday"]:
+            if automation not in file_content["list"]["wednesday"]:
+                automation["occurence"] = "wednesday"
+                wednesday_automations.append(automation)
+    elif day == 3:
+        for automation in file_content["automations"]["thursday"]:
+            if automation not in file_content["list"]["thursday"]:
+                automation["occurence"] = "thursday"
+                thursday_automations.append(automation)
+    elif day == 4:
+        for automation in file_content["automations"]["friday"]:
+            if automation not in file_content["list"]["friday"]:
+                automation["occurence"] = "friday"
+                friday_automations.append(automation)
+    elif day == 5:
+        for automation in file_content["automations"]["saturday"]:
+            if automation not in file_content["list"]["saturday"]:
+                automation["occurence"] = "saturday"
+                saturday_automations.append(automation)
+    elif day == 6:
+        for automation in file_content["automations"]["sunday"]:
+            if automation not in file_content["list"]["sunday"]:
+                automation["occurence"] = "sunday"
+                sunday_automations.append(automation)
 
-        if day == 0:
-            for automation in file_content["automations"]["monday"]:
-                if automation not in file_content["list"]["monday"]:
-                    automation["occurence"] = "monday"
-                    monday_automations.append(automation)
-        elif day == 1:
-            for automation in file_content["automations"]["tuesday"]:
-                if automation not in file_content["list"]["tuesday"]:
-                    automation["occurence"] = "tuesday"
-                    tuesday_automations.append(automation)
-        elif day == 2:
-            for automation in file_content["automations"]["wednesday"]:
-                if automation not in file_content["list"]["wednesday"]:
-                    automation["occurence"] = "wednesday"
-                    wednesday_automations.append(automation)
-        elif day == 3:
-            for automation in file_content["automations"]["thursday"]:
-                if automation not in file_content["list"]["thursday"]:
-                    automation["occurence"] = "thursday"
-                    thursday_automations.append(automation)
-        elif day == 4:
-            for automation in file_content["automations"]["friday"]:
-                if automation not in file_content["list"]["friday"]:
-                    automation["occurence"] = "friday"
-                    friday_automations.append(automation)
-        elif day == 5:
-            for automation in file_content["automations"]["saturday"]:
-                if automation not in file_content["list"]["saturday"]:
-                    automation["occurence"] = "saturday"
-                    saturday_automations.append(automation)
-        elif day == 6:
-            for automation in file_content["automations"]["sunday"]:
-                if automation not in file_content["list"]["sunday"]:
-                    automation["occurence"] = "sunday"
-                    sunday_automations.append(automation)
-
-        for automation in file_content["automations"]["week"]:
-            if automation not in file_content["list"]["week"]:
-                automation["occurence"] = "week"
-                week_automations.append(automation)
+    for automation in file_content["automations"]["week"]:
+        if automation not in file_content["list"]["week"]:
+            automation["occurence"] = "week"
+            week_automations.append(automation)
 
     items += (
         day_automations
