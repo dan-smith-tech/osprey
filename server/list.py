@@ -29,6 +29,7 @@ def get_items():
     day = date.today().weekday()
     weekday = day < 5
     same_week = last_login.isocalendar()[1] == date.today().isocalendar()[1]
+    same_month = last_login.month == date.today().month
 
     day_automations = []
     weekday_automations = []
@@ -41,6 +42,7 @@ def get_items():
     saturday_automations = []
     sunday_automations = []
     week_automations = []
+    month_automations = []
 
     if last_login != date.today():
         file_content["login"] = date.today()
@@ -68,6 +70,9 @@ def get_items():
 
         if not same_week:
             file_content["list"]["week"] = []
+
+        if not same_month:
+            file_content["list"]["month"] = []
 
         set_file(file_content)
 
@@ -128,6 +133,11 @@ def get_items():
             automation["occurence"] = "week"
             week_automations.append(automation)
 
+    for automation in file_content["automations"]["month"]:
+        if automation not in file_content["list"]["month"]:
+            automation["occurence"] = "month"
+            month_automations.append(automation)
+
     items += (
         day_automations
         + weekday_automations
@@ -140,6 +150,7 @@ def get_items():
         + saturday_automations
         + sunday_automations
         + week_automations
+        + month_automations
     )
 
     tags = file_content["tags"]

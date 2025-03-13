@@ -35,7 +35,6 @@ def add():
 
 @app.route("/api/list", methods=["DELETE"])
 def delete():
-    print(request.json)
     item = request.json
     file_content = get_file()
     file_content = delete_item(file_content, item)
